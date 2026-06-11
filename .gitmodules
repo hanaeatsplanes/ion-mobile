@@ -1,0 +1,3 @@
+[submodule "redirect"]
+	path = redirect
+	url = https://github.com/hanaeatsplanes/ion-mobile-redirect
