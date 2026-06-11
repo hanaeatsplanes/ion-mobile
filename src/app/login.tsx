@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import {Button, Text, View} from "react-native";
 import * as WebBrowser from 'expo-web-browser';
 import {useEffect} from "react";
 import * as AuthSession from "expo-auth-session";
@@ -8,7 +8,6 @@ WebBrowser.maybeCompleteAuthSession();
 const discovery = {
     authorizationEndpoint: 'https://ion.tjhsst.edu/oauth/authorize/',
     tokenEndpoint: 'https://ion.tjhsst.edu/oauth/token/',
-    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
 };
 
 export default function Login() {
@@ -22,14 +21,18 @@ export default function Login() {
     
     const [request, response, promptAsync] = AuthSession.useAuthRequest(
         {
-            clientId: process.env.ION_CLIENT_ID,
-            
-        }
+            clientId: process.env.EXPO_PUBLIC_ION_CLIENT_ID,
+            scopes: ["read", "write"],
+            redirectUri: "https://hanaeatsplanes.github.io/ion-mobile-redirect/" // redirects to the app
+        },
+        discovery
     )
     
-    AuthSession.makeRedirectUri({
-    
-    })
+    useEffect(() => {
+        if (response?.type === 'success') {
+            const { code } = response.params;
+        }
+    }, [response]);
     
     return (
         <View
@@ -41,6 +44,13 @@ export default function Login() {
         >
             <Text style={{ textDecorationStyle: "double" }}>Login with Ion?</Text>
             <Text>This information will stay purely on your device.</Text>
+            <Button
+                disabled={!request}
+                title="Login"
+                onPress={() => {
+                    void promptAsync();
+                }}
+            />
         </View>
     );
 }
