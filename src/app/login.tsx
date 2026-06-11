@@ -18,12 +18,13 @@ export default function Login() {
             void WebBrowser.coolDownAsync();
         };
     }, []);
-    
+    const deepUrl = AuthSession.makeRedirectUri({ path: "oauth" })
     const [request, response, promptAsync] = AuthSession.useAuthRequest(
         {
             clientId: process.env.EXPO_PUBLIC_ION_CLIENT_ID,
             scopes: ["read", "write"],
-            redirectUri: "https://hanaeatsplanes.github.io/ion-mobile-redirect/" // redirects to the app
+            redirectUri: "https://hanaeatsplanes.github.io/ion-mobile-redirect/", // redirects to the app
+            state: deepUrl
         },
         discovery
     )
