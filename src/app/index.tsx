@@ -1,4 +1,4 @@
-import {Text, View, Linking, Pressable} from "react-native";
+import {Text, View, Linking, Pressable, Button} from "react-native";
 import {router} from "expo-router";
 
 export default function Index() {
@@ -11,9 +11,9 @@ export default function Index() {
 			}}
 		>
 			<Text>Edit app/index.tsx to edit this screen.</Text>
-			<Pressable onPress={() => router.push("/login")}>
-				<Text>Go to Login</Text>
-			</Pressable>
+			
+			<Button onPress={() => router.push("/login")} title={"Go to Login"}>
+			</Button>
 		</View>
 	);
 }
